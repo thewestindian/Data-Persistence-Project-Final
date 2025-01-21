@@ -11,6 +11,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text BestScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -19,6 +20,8 @@ public class MainManager : MonoBehaviour
     private bool m_GameOver = false;
 
     public static MainManager Instance;
+
+    public Text UserNameText;
 
     
     // Start is called before the first frame update
@@ -39,12 +42,6 @@ public class MainManager : MonoBehaviour
             }
         }
     }
-
-    private void Awake()
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
 
     private void Update()
     {
