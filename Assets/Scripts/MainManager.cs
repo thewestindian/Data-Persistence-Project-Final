@@ -18,6 +18,8 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
+    public static MainManager Instance;
+
     
     // Start is called before the first frame update
     void Start()
@@ -37,6 +39,12 @@ public class MainManager : MonoBehaviour
             }
         }
     }
+
+    private void Awake()
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
     private void Update()
     {
