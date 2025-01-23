@@ -1,29 +1,33 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System.IO;
 
 public class MainManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI highScoreText;
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
 
     public Text ScoreText;
-    public Text BestScoreText;
+    public Text HighScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
-    private int m_Points;
+    public int m_Points;
+    public int highscore;
     
     private bool m_GameOver = false;
 
     public static MainManager Instance;
 
     public Text UserNameText;
+
+    public TextMeshProUGUI display_player_name;
 
     
     // Start is called before the first frame update
@@ -43,6 +47,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        LoadData();
+        
     }
 
     private void Update()
@@ -67,32 +73,44 @@ public class MainManager : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
+
+        HighScoreText.text = $"{highscore}";
     }
 
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
-        CheckHighScore();
-    }
+        ScoreText.text = $"Current Score : {m_Points}";
+        
+            if (m_Points > highscore)
+            {
+                highscore = m_Points;
+                //public void Awake()
+                    {
+                        display_player_name.text = $"{StartOK.startOK.player_name}";
+                    }
+            }
 
-    void CheckHighScore()
-    {
-        if(m_Points > PlayerPrefs.GetInt("HighScore", 0))
-        {
-            PlayerPrefs.SetInt("HighScore", m_Points);
-            UpdateHighScoreText();
-        }
-    }
-
-    void UpdateHighScoreText()
-    {
-        highScoreText.text = $"HighScore: {PlayerPrefs.GetInt("HighScore, 0")}";
+            
     }
 
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        SaveData();
     }
+
+
+    public void SaveData()
+        {
+        PlayerPrefs.SetInt("Score", highscore);
+        PlayerPrefs.SetString("Name", display_player_name.text);
+        }
+
+        public void LoadData()
+        {
+            highscore = PlayerPrefs.GetInt("Score");
+            display_player_name.text = PlayerPrefs.GetString("Name");
+        }
 }

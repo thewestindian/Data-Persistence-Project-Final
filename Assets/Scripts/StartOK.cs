@@ -2,17 +2,18 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class Start : MonoBehaviour
+public class StartOK : MonoBehaviour
 {
-public static Start start;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+public static StartOK startOK;
 public TMP_InputField inputfield;
 public string player_name;
 
 private void Awake()
     {
-        if (start == null)
+        if (startOK == null)
         {
-        start = this;
+        startOK = this;
         DontDestroyOnLoad(gameObject);
         }
 
@@ -29,4 +30,5 @@ public void SetPlayerName()
 
         SceneManager.LoadSceneAsync("main");
     }
+
 }
